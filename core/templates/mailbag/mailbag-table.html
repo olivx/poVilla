@@ -1,0 +1,30 @@
+{% for malote  in list_objects %}
+<tr>
+    <th>{{ malote.id }}</th>
+    <th class="upper"><a href="{% url 'core:po-list' malote.id %}">{{ malote }}</a></th>
+    <th class="upper">{{ malote.get_entrega_display }}</th>
+
+    <th><input type="checkbox" {% if malote.mensalista %} checked {% endif %} disabled />
+    </th>
+
+    <th>
+        <a class="btn btn-warning js-update-modal-malote"
+                href="{% url 'core:mailbag-details' malote.id %}">
+            <i class="glyphicon glyphicon-pencil"></i>
+        </a>
+    </th>
+
+    <th>
+        <button type="button" class="btn btn-danger js-delete-modal-mailbag"
+                data-url="{% url 'core:mailbag-delete' malote.id %}">
+            <i class="glyphicon glyphicon-trash"></i>
+        </button>
+    </th>
+
+    {% empty %}
+    <th colspan="8" class="bg-warning text-center">
+        Nenhum malotee Foi Encontrado, Por favor tente com outros Parametros
+    </th>
+
+</tr>
+{% endfor %}

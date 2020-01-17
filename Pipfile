@@ -4,9 +4,18 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+ipdb = "*"
+pylint = "*"
 
 [packages]
-django = "*"
+pillow = "*"
+six = "*"
+django = "==2.0"
+python-decouple = "*"
+django-widget-tweaks = "*"
+django-crispy-forms = "*"
+faker = "*"
+django-pure-pagination = "*"
 
 [requires]
 python_version = "3.7"

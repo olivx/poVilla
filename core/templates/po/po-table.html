@@ -1,0 +1,30 @@
+{% for po  in list_objects %}
+<tr>
+    <th>{{ po.id }}</th>
+    <th class="upper">
+        <a href="{% url 'core:po-edit' po.pk  1 %}">
+            {{ po.po }} | {{ po.request}} | {{ po.servico}} | {{ po.mailbag.pk }}
+        </a>
+    </th>
+
+    <th>
+        <a class="btn btn-warning js-update-modal-po"
+                href="{% url 'core:po-edit' po.pk  po.mailbag.pk %}">
+            <i class="glyphicon glyphicon-pencil"></i>
+        </a>
+    </th>
+
+    <th>
+        <button type="button" class="btn btn-danger js-delete-modal-mailbag"
+                data-url="{% url 'core:mailbag-delete' po.id %}">
+            <i class="glyphicon glyphicon-trash"></i>
+        </button>
+    </th>
+
+    {% empty %}
+    <th colspan="8" class="bg-warning text-center">
+        Nenhum poe Foi Encontrado, Por favor tente com outros Parametros
+    </th>
+
+</tr>
+{% endfor %}

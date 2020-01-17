@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block  title %} Imperium Malotes {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <h1 class="page-header"
+        style="margin-top:0px; padding:0px;">
+            Imperium <small> Malotes </small>
+    </h1>
+</div>
+<div class="message">
+{% include 'messages.html' %}
+</div>
+<div class="form-group">
+    <a class="btn btn-primary" href="{% url 'core:mailbag-create' %}">
+        NOVO <span class="glyphicon glyphicon-plus"></span>
+    </a>
+</div>
+<form action="" method="get">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <div class="input-group col-md-8">
+            <input type="text" class="form-control" name="search"
+                   placeholder="Buscar por nome, local">
+
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+<table id="mailbag-table" class="table table-striped table-hover table-condensed">
+    <thead>
+    <tr>
+        <th width="5%">#</th>
+        <th width="50%">NOME/APELIDO</th>
+        <th width="20%">ENTREGA</th>
+        <th width="10%">CHECK</th>
+        <th width="5%">EDIT</th>
+        <th width="5%">DELETE</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    {% include 'mailbag/mailbag-table.html'%}
+
+
+    </tbody>
+
+    <tfoot>
+
+    </tfoot>
+</table>
+{% include 'pagination.html' with object_list=client_list %}
+<div id="mailbag-modal"   class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+
+        </div><!-- content -->
+    </div>
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+        crossorigin="anonymous">
+
+
+
+</script>
+<script>
+ // delete client
+$('#mailbag-table').on('click', '.js-delete-modal-mailbag', loadMailBagForm);
+function loadMailBagForm(){
+         var btn = $(this);
+        $.ajax({
+            url: btn.attr('data-url'),
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function(){
+                $('#mailbag-modal').modal('show');
+            },
+            success: function(data){
+                $('#mailbag-modal .modal-content').html(data.html_form);
+            }
+        });
+    };
+
+$('#mailbag-modal').on('submit', '.js-delete-mailbag-form', deleteMailBagForm);
+function deleteMailBagForm(){
+    var form =  $(this);
+        $.ajax({
+            url:  form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            dataType: 'json',
+            success: function(data){
+                if(data.is_form_valid){
+
+                    $('#mailbag-table tbody').html(data.html_table);
+                    $('.message').html(data.message)
+                    $('#mailbag-modal').modal('hide');
+
+                }else{
+                    $('#mailbag-modal .modal-content').html(data.html_form);
+                }
+            }
+    });
+return false;
+};
+</script>
+
+{% endblock %}
+
+
+{% block java_script_app %}
+
+{% endblock %}

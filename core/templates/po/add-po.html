@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block  title %} Imperium Malotes {% endblock %}
+
+{% block custom_css %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+    <h1 class="page-header"
+        style="margin-top:0px; padding:0px;">
+            Imperium <small> Malote <strong>{{ mailbag }}</strong> </small>
+    </h1>
+</div>
+<div class="message">
+{% include 'messages.html' %}
+</div>
+
+{{po_form.erros}}
+<div class="col-md-offset-2 col-md-8">
+    <form method="post" style="margin-top: 30px;">
+        {% csrf_token %}
+        <div class="row">
+            <div class="row"> 
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.po|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.date_period|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.date_to_finish|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row"> 
+                <div class="form-group col-md-12 mb-0">
+                    {{ po_form.request|as_crispy_field }}
+                </div>
+            
+                <div class="form-group col-md-10 mb-0">
+                    {{ po_form.servico|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-2 mb-0">
+                    {{ po_form.servico_qdt|as_crispy_field }}
+                </div>
+            </div>  
+
+            
+            <div class="row">
+                <div class="col-md-6 mb-0">
+                    <div class="form-group">
+                        <label id="local">
+                            Unidade 
+                        </label>
+                        <select name="local" class="form-control" id="local-name-select">
+                            <option value="" selected="">---------</option>
+                            {% for local in local_list %}
+                                <option value="{{ local.name }}">{{local.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-0">
+                    <div class="form-group">
+                        <label id="mailbag-entrega">
+                            Entrega  
+                        </label>
+                        <select name="mailbag-entrega" class="form-control" id="mailbag-entrega-select">
+                            <option value="" selected="">---------</option>
+                            {% for entrega in mailbag.TIME_MAILBAG %}
+                                <option value="{{ entrega.0 }}">{{ entrega.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.type|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.seg_choices|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.revision|as_crispy_field }}
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-md-12 mb-0">
+                    {{ po_form.subject|as_crispy_field }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.xerox_choices|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.copy_number|as_crispy_field }}
+                </div>
+                
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.copy_original|as_crispy_field }}
+                </div>
+            </div>
+            
+            
+            <div class="row">
+                <div class="form-group col-md-8 mb-0">
+                    {{ po_form.comment|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ po_form.copy_option|as_crispy_field|default_if_none:'' }}
+                
+                </div>
+            </div>
+
+        </div>
+
+        
+        <div class="row" style="margin-top: 30PX;margin-bottom: 50PX;">
+            <button class="btn btn-primary" s>
+                ADICONAR NA PO
+            </button>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $( function() {
+      $( "#id_date_period" ).datepicker();
+    } );
+    $( function() {
+      $( "#id_date_to_finish" ).datepicker();
+    } );
+</script>
+
+{% endblock %}

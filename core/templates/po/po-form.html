@@ -1,0 +1,80 @@
+{% load widget_tweaks %}
+<div class="row">
+  
+    <div class="from-group">
+        <div id="div-po" class="col-md-4 form-group {% if po_form.po.errors %} has-error {% endif %}">
+            <label id="{{po_form.po.id_for_label }}">
+                {{ po_form.po.label_tag }}
+            </label>
+            {% render_field po_form.po|add_class:'form-control' %}
+            {% for error in po_form.po.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div id="div-date_period" class="col-md-4 form-group {% if po_form.date_period.errors %} has-error {% endif %}">
+            <label id="{{po_form.po.id_for_label }}">
+                {{ po_form.date_period.label_tag }}
+            </label>
+            {% render_field po_form.date_period|add_class:'form-control' %}
+            {% for error in po_form.date_period.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+
+        <div id="div-date_to_finish" class="col-md-4 form-group {% if po_form.date_to_finish.errors %} has-error {% endif %}">
+            <label id="{{po_form.date_to_finish.id_for_label }}">
+                {{ po_form.date_to_finish.label_tag }}
+            </label>
+            {% render_field po_form.date_to_finish|add_class:'form-control' %}
+            {% for error in po_form.date_to_finish.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="from-group">
+        <div id="div-name" class="col-md-8 rform-group {% if request_form.name.errors %} has-error {% endif %}">
+            <label id="{{request_form.name.id_for_label }}">
+                {{ request_form.name.label_tag }}
+            </label>
+            {% render_field request_form.name|add_class:'form-control' %}
+            {% for error in request_form.name.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div id="div-grade" class="col-md-4 form-group {% if request_form.grade.errors %} has-error {% endif %}">
+            <label id="{{request_form.grade.id_for_label }}">
+                {{ request_form.grade.label_tag }}
+            </label>
+            {% render_field request_form.grade|add_class:'form-control' %}
+            {% for error in request_form.grade.errors %}
+            <span class="help-block">{{ error }}</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-md-12 row">
+        <div class="from-group">
+
+            <div id="div-local-name" class="col-md-6 form-group">
+                <label id="local-name">
+                    Unidade 
+                </label>
+                <select name="local-name" class="form-control" id="local-name-select">
+                    <option value="" selected="">---------</option>
+                    {% for local in local_list %}
+                        <option value="{{ local.name }}">{{local.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+</div>

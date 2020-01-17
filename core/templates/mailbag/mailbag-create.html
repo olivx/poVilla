@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block  title %} Imperium Malotes {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <h1 class="page-header"
+        style="margin-top:0px; padding:0px;">
+            Imperium <small> Criando Malotes </small>
+    </h1>
+</div>
+<div class="message">
+{% include 'messages.html' %}
+</div>
+<div class="col-md-offset-2 col-md-8">
+    <form method="post" style="margin-top: 30px;">
+        {% csrf_token %}
+        <table>
+            {{ mailbag_form|crispy }}
+        </table>
+        <button class="btn btn-primary">
+            Criar Malote 
+        </button>
+    </form>
+</div>
+
+{% endblock %}

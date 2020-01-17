@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block  title %} Imperium Malotes {% endblock %}
+
+{% block content %}
+
+<div class="row">
+    <h1 class="page-header"
+        style="margin-top:0px; padding:0px;">
+            Imperium <small> Lista de PO | {{mailbag}}</small>
+    </h1>
+</div>
+<div class="message">
+{% include 'messages.html' %}
+</div>
+<div class="form-group">
+    <a class="btn btn-primary" href="{% url 'core:po-add' mailbag.pk %}">
+        NOVO <span class="glyphicon glyphicon-plus"></span>
+    </a>
+</div>
+<form action="" method="get">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <div class="input-group col-md-8">
+            <input type="text" class="form-control" name="search"
+                   placeholder="Buscar por nome, local">
+
+            <div class="input-group-btn">
+                <button class="btn btn-primary" type="submit">
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div class="col-md-10">
+    <table id="po-table" class="table table-striped table-hover table-condensed">
+        <thead>
+            <div>
+            </div>
+            <th width="5%">#</th>
+            <th width="50%">Referencia PO</th>
+            <th width="5%">EDIT</th>
+            <th width="5%">DELETE</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        
+        {% include 'po/po-table.html'%}
+        
+        
+    </tbody>
+
+    <tfoot>
+        
+    </tfoot>
+    </table>
+</tr>
+{% include 'pagination.html' with object_list=client_list %}
+<div id="po-modal"   class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+
+        </div><!-- content -->
+    </div>
+</div>
+
+<script
+        src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+        crossorigin="anonymous">
+
+
+
+</script>
+<script>
+ // delete client
+$('#po-table').on('click', '.js-delete-modal-po', loadpoForm);
+function loadpoForm(){
+         var btn = $(this);
+        $.ajax({
+            url: btn.attr('data-url'),
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function(){
+                $('#po-modal').modal('show');
+            },
+            success: function(data){
+                $('#po-modal .modal-content').html(data.html_form);
+            }
+        });
+    };
+
+$('#po-modal').on('submit', '.js-delete-po-form', deletepoForm);
+function deletepoForm(){
+    var form =  $(this);
+        $.ajax({
+            url:  form.attr('action'),
+            type: form.attr('method'),
+            data: form.serialize(),
+            dataType: 'json',
+            success: function(data){
+                if(data.is_form_valid){
+
+                    $('#po-table tbody').html(data.html_table);
+                    $('.message').html(data.message)
+                    $('#po-modal').modal('hide');
+
+                }else{
+                    $('#po-modal .modal-content').html(data.html_form);
+                }
+            }
+    });
+return false;
+};
+</script>
+
+{% endblock %}
+
+
+{% block java_script_app %}
+
+{% endblock %}
