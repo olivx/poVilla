@@ -10,7 +10,7 @@ pylint = "*"
 [packages]
 pillow = "*"
 six = "*"
-django = "==2.0"
+django = "==2.2.13"
 python-decouple = "*"
 django-widget-tweaks = "*"
 django-crispy-forms = "*"
